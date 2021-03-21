@@ -19,7 +19,7 @@ import {
 import Rating from '../components/Rating';
 // import products from '../products';
 
-const ProductScreen = ({ match }) => {
+const ProductScreen = ({ history, match }) => {
   // const product = products.find((product) => product._id === match.params.id);
 
   // const [product, setProduct] = useState({});
@@ -32,6 +32,8 @@ const ProductScreen = ({ match }) => {
 
   //   fetchProduct();
   // }, [match]);
+
+  const [qty, setQty] = useState(1);
 
   const dispatch = useDispatch();
 
@@ -52,6 +54,11 @@ const ProductScreen = ({ match }) => {
     image,
     countInStock,
   } = product;
+
+  const addToCartHandler = () => {
+    history.push(`/cart/${match.params.id}?qty=${qty}`);
+  };
+
   return (
     <>
       <Link className="btn btn-light my-3" to="/">
@@ -101,8 +108,31 @@ const ProductScreen = ({ match }) => {
                     </Col>
                   </Row>
                 </ListGroup.Item>
+
+                {product.countInStock > 0 && (
+                  <ListGroup.Item>
+                    <Row>
+                      <Col>Qty</Col>
+                      <Col>
+                        <Form.Control
+                          as="select"
+                          value={qty}
+                          onChange={(e) => setQty(e.target.value)}
+                        >
+                          {[...Array(product.countInStock).keys()].map((x) => (
+                            <option value={x + 1} key={x + 1}>
+                              {x + 1}
+                            </option>
+                          ))}
+                        </Form.Control>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                )}
+
                 <ListGroup.Item>
                   <Button
+                    onClick={addToCartHandler}
                     className="btn-block"
                     type="button"
                     disabled={countInStock > 0 ? false : true}
