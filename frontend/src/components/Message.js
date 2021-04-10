@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import { Alert } from 'react-bootstrap';
 
-const Message = ({ variant, children }) => {
-  const [alert, setAlert] = useState(false);
-  setTimeout(() => {
-    setAlert(false);
-  }, 3000);
+const Message = ({ variant, children, permanent }) => {
+  const [hidden, setHidden] = useState(false);
+
+  if (!permanent) {
+    setTimeout(() => {
+      setHidden(true);
+    }, 5000);
+  }
+
   return (
-    <Alert hidden={alert} variant={variant}>
+    <Alert hidden={hidden} variant={variant}>
       {children}
     </Alert>
   );
