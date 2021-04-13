@@ -10,6 +10,7 @@ import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants';
 
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import Meta from '../components/Meta';
 
 import {
   Row,
@@ -100,6 +101,11 @@ const ProductScreen = ({ history, match }) => {
         <Message variant="danger">{error}</Message>
       ) : (
         <>
+          <Meta
+            title={product.name}
+            description={product.description}
+            keywords={product.name}
+          />
           <Row>
             <Col md={6}>
               <Image src={image} alt={name} fluid></Image>
